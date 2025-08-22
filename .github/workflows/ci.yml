@@ -1,0 +1,44 @@
+name: CI - NestJS API
+
+# 1. Khi nào workflow chạy
+on:
+  push: # chạy khi có commit push lên
+    branches: [main, develop]
+  pull_request: # chạy khi có Pull Request
+    branches: [main, develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # 2. Chạy trên máy ảo Ubuntu mới nhất
+
+    steps:
+      # Bước 1: Lấy source code từ repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Bước 2: Cài Node.js (chọn version phù hợp với NestJS, thường là 16 hoặc 18)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # bạn có thể đổi sang 16 nếu project yêu cầu
+          cache: 'npm' # bật cache npm để tăng tốc cài dependencies
+
+      # Bước 3: Cài dependencies
+      - name: Install dependencies
+        run: npm ci # dùng npm ci nhanh và ổn định hơn npm install
+
+      # Bước 4: Kiểm tra lint (format code, convention)
+      - name: Lint code
+        run: npm run lint
+
+      # Bước 5: Build project
+      - name: Build project
+        run: npm run build
+
+      # Bước 6: Chạy test
+      - name: Run tests
+        run: npm run test -- --ci --runInBand
+
+      # (Tuỳ chọn) Bước 7: Chạy test coverage
+      - name: Run tests with coverage
+        run: npm run test:cov

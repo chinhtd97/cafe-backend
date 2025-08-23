@@ -2,7 +2,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Model, Document } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
+
 import { UserToken } from './schemas/user-token.schema';
 
 export interface UserTokenDocument extends UserToken, Document {}

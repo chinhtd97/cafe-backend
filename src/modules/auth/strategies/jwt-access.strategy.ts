@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, StrategyOptionsWithRequest } from 'passport-jwt';
 
@@ -10,10 +11,10 @@ interface JwtPayload {
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor() {
+  constructor(configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_ACCESS_SECRET ?? '', // fallback rỗng
+      secretOrKey: configService.get('JWT_ACCESS_SECRET') ?? '', // fallback rỗng
       passReqToCallback: true, // cần để lấy cookie
     } as StrategyOptionsWithRequest);
   }

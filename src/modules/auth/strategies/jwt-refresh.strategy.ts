@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, StrategyOptionsWithRequest } from 'passport-jwt';
 import type { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 //import { JwtPayload } from './types/jwt-payload.type';
 
 interface JwtPayload {
@@ -15,7 +16,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {
-  constructor() {
+  constructor(configService: ConfigService) {
     super({
       // 👇 custom lấy token từ cookie thay vì Authorization header
       jwtFromRequest: ExtractJwt.fromExtractors([
@@ -23,7 +24,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
           return req?.cookies?.refreshToken || null;
         },
       ]),
-      secretOrKey: process.env.JWT_REFRESH_SECRET,
+      secretOrKey: configService.get('JWT_REFRESH_SECRET') ?? '', // fallback rỗng
       passReqToCallback: true, // cần để lấy cookie
     } as StrategyOptionsWithRequest);
   }

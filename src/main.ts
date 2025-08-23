@@ -3,9 +3,14 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { setupSwagger } from './config/swagger.config';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Env
+  dotenv.config();
+
   // Security
   app.use(helmet());
   app.enableCors({

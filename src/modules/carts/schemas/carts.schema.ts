@@ -1,11 +1,11 @@
 import { Schema, Document, Types } from 'mongoose';
 
-export interface CartItem {
+export class CartItem {
   product_id: Types.ObjectId;
   quantity: number;
 }
 
-export interface Cart extends Document {
+export class Cart extends Document {
   user_id: Types.ObjectId;
   items: CartItem[];
   total_price: number;

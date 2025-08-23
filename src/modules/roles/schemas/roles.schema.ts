@@ -1,6 +1,6 @@
 import { Schema, Document } from 'mongoose';
 
-export interface Role extends Document {
+export class Role extends Document {
   name: string;
   permissions: string[]; // array of permissions
   created_at?: Date;

@@ -1,6 +1,6 @@
 import { Schema, Document, Types } from 'mongoose';
 
-export interface OTP extends Document {
+export class OTP extends Document {
   user_id: Types.ObjectId;
   code: string;
   expires_at: Date;

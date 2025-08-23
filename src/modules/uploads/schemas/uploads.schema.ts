@@ -1,6 +1,6 @@
 import { Schema, Document, Types } from 'mongoose';
 
-export interface Upload extends Document {
+export class Upload extends Document {
   file_name: string;
   url: string;
   type: string;

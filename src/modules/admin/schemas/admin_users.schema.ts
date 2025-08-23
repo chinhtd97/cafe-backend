@@ -1,6 +1,6 @@
 import { Schema, Document, Types } from 'mongoose';
 
-export interface AdminUser extends Document {
+export class AdminUser extends Document {
   name: string;
   email: string;
   password: string;
